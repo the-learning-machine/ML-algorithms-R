@@ -5,6 +5,8 @@ dataset = read.csv('https://ibm.box.com/shared/static/q6iiqb1pd7wo8r3q28jvgsrprz
 new_dataset = dataset[c(22,26,6)]
 
 # Initializing "four" and "two" as 1 and 0
+# Usually, this tranformation is not a compalsory stage for the model to run. 
+# In this particular example it is required, since initially the model handles words instead of numbers
 for (i in 1:dim(new_dataset)[1]){
   if (new_dataset$num.of.doors[i] == "four"){
     new_dataset$num.of.doors[i] <- 1
@@ -26,6 +28,8 @@ training_set = subset(new_dataset, split == TRUE)
 test_set = subset(new_dataset, split == FALSE)
 
 # Feature Scaling
+# This stage is not compalsory. 
+# In our case independent variables have huge difference, that is why we need to perform feature scaling to be able to visualize the model correctly
 training_set[, 1:2] = scale(training_set[, 1:2])
 test_set[, 1:2] = scale(test_set[, 1:2])
 
@@ -42,7 +46,8 @@ classifier = rpart(formula = num.of.doors ~ .,
 pred_val = predict(classifier, newdata = test_set[-3], type = 'class')
 
 # Making the Confusion Matrix. Type in "cm" in command panel after running this code, you'll see the matrix. 
-# All correct predictions are located in the diagonal of the matrix.
+# All correct predictions will be located in the diagonal of the matrix. 
+# This will allow you to evaluate prefomance of your model.
 cm = table(test_set[, 3], pred_val)
 
 # Visualising the Training set results
