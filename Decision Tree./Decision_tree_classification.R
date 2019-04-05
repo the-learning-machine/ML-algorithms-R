@@ -17,8 +17,7 @@ for (i in 1:dim(new_dataset)[1]){
 # Encoding the target feature as factor. It it is necessary for the model to understand that "0" and "1" are not numbers in our case.
 new_dataset$num.of.doors = factor(new_dataset$num.of.doors, levels = c(0, 1))
 
-# Splitting the dataset into the Training set and Test set. Usually the model is split by 2/3. 
-# However, you can adjust this ratio depending on the amount of data you have. 
+# Splitting the dataset into the Training set and Test set.
 # install.packages('caTools')
 library(caTools)
 set.seed(123)
@@ -40,11 +39,11 @@ classifier = rpart(formula = num.of.doors ~ .,
                    control = rpart.control(minsplit = 20))
 
 # Predicting the Test set results
-y_pred = predict(classifier, newdata = test_set[-3], type = 'class')
+pred_val = predict(classifier, newdata = test_set[-3], type = 'class')
 
 # Making the Confusion Matrix. Type in "cm" in command panel after running this code, you'll see the matrix. 
 # All correct predictions are located in the diagonal of the matrix.
-cm = table(test_set[, 3], y_pred)
+cm = table(test_set[, 3], pred_val)
 
 # Visualising the Training set results
 # install.packages('ElemStatLearn')
